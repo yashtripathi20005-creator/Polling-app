@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Create New Poll{% endblock %}
+
+{% block content %}
+<div class="create-container">
+    <h2>Create a New Poll</h2>
+    
+    <form action="/create" method="POST" class="create-form">
+        <div class="form-group">
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" required 
+                   placeholder="What would you like to ask?" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Options:</label>
+            <div id="options-container">
+                <div class="option-input">
+                    <input type="text" name="option" placeholder="Option 1" required class="form-control">
+                </div>
+                <div class="option-input">
+                    <input type="text" name="option" placeholder="Option 2" required class="form-control">
+                </div>
+                <div class="option-input">
+                    <input type="text" name="option" placeholder="Option 3" class="form-control">
+                </div>
+                <div class="option-input">
+                    <input type="text" name="option" placeholder="Option 4" class="form-control">
+                </div>
+            </div>
+            <button type="button" onclick="addOption()" class="btn btn-secondary btn-sm">Add Option</button>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create Poll</button>
+            <a href="/" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    let optionCount = 4;
+    
+    function addOption() {
+        if (optionCount >= 10) {
+            alert('Maximum 10 options allowed!');
+            return;
+        }
+        optionCount++;
+        
+        const container = document.getElementById('options-container');
+        const div = document.createElement('div');
+        div.className = 'option-input';
+        div.innerHTML = `
+            <input type="text" name="option" placeholder="Option ${optionCount}" class="form-control">
+            <button type="button" onclick="removeOption(this)" class="btn btn-danger btn-sm" style="margin-left: 5px;">×</button>
+        `;
+        container.appendChild(div);
+    }
+    
+    function removeOption(button) {
+        const div = button.parentElement;
+        div.remove();
+        optionCount--;
+    }
+</script>
+{% endblock %}
