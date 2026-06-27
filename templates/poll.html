@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ poll.question }}{% endblock %}
+
+{% block content %}
+<div class="poll-container">
+    <div class="poll-header">
+        <h2>{{ poll.question }}</h2>
+        <div class="poll-info">
+            <span>Created: {{ poll.created_at[:10] }}</span>
+        </div>
+    </div>
+
+    <form action="/vote/{{ poll.id }}" method="POST" class="vote-form">
+        <div class="options-list">
+            {% for option in options %}
+                <label class="option-item">
+                    <input type="radio" name="option" value="{{ option.id }}" required>
+                    <span class="option-text">{{ option.text }}</span>
+                    <span class="option-votes">({{ option.votes }} votes)</span>
+                </label>
+            {% endfor %}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit Vote</button>
+            <a href="/results/{{ poll.id }}" class="btn btn-info">View Results</a>
+            <a href="/" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
