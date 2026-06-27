@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Results - {{ poll.question }}{% endblock %}
+
+{% block content %}
+<div class="results-container">
+    <div class="results-header">
+        <h2>{{ poll.question }}</h2>
+        <div class="results-info">
+            <span>Total Votes: {{ total_votes }}</span>
+        </div>
+    </div>
+
+    <div class="results-chart">
+        {% for option in options %}
+            <div class="result-bar">
+                <div class="result-label">
+                    <span>{{ option.text }}</span>
+                    <span class="result-count">{{ option.vote_count }} votes ({{ option.vote_count / total_votes * 100 if total_votes > 0 else 0 }}%)</span>
+                </div>
+                <div class="bar-container">
+                    <div class="bar" style="width: {{ option.vote_count / total_votes * 100 if total_votes > 0 else 0 }}%; background: {{ ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#f44336', '#00BCD4', '#FF5722', '#8BC34A'][loop.index0 % 8] }};">
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="form-actions">
+        <a href="/poll/{{ poll.id }}" class="btn btn-secondary">Back to Vote</a>
+        <a href="/" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+{% endblock %}
